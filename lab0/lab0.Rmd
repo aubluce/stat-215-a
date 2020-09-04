@@ -1,0 +1,49 @@
+---
+title: "lab0"
+author: "Aubrey Condor"
+date: "9/1/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+# Loading the data
+
+```{r}
+data("USArrests")
+library(readr)
+stateCoord <- read_table2("stateCoord.txt")
+library(tidyverse)
+```
+# Visualizing the data
+
+plotting Murder v Assault
+```{r}
+library(ggplot2)
+ggplot(USArrests, aes(x=Murder, y=Assault)) +
+  geom_point()
+```
+
+plotting Rape v urban population
+```{r}
+ggplot(USArrests, aes(x=Rape, y=UrbanPop)) +
+  geom_point()
+```
+
+plotting Rape v urban population w/ outlier highlighted
+```{r}
+USArrests_outliers <- USArrests %>%
+  filter(UrbanPop < 55 & Rape > 40)
+
+USArrests %>%
+  ggplot(aes(x=Rape, y=UrbanPop)) +
+  geom_point(alpha=0.3) +
+  geom_point(data=USArrests_outliers, aes(x=Rape, y=UrbanPop), color='red')
+```
+
+Re-make the plots with the state names
+```{r}
+ggplot(USArrests, aes(x=Murder, y=Assault)) +
+  geom_point() + geom_text(aes(label=rownames(USArrests)))
+```
+
+# Not continuing the lab: feel comfortable with using Rmarkdown and git. 
